@@ -10,18 +10,7 @@ if [ "$1" = "--step-chroot" ]; then
 
 	printf "  Installing packages..." >&2
 
-	cat <<EOF > /etc/apk/keys/layeh.com-5b313ebb.rsa.pub
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8OZrGEUMGjd2oAkYb+qu
-rIT7k5FFS5zP6v/YwOOmbT4iQMHlkEP/Aj1PhKZt4FiirFm3fpVKjJa9uPeWRVC4
-eqZ+o9e5xm+2Sb8+Ljn617y2Yzb5kxRyE+1pOuA9WfROZdE+VNvkgcReql6tu19F
-qHj+hwCf3vNsTFeDiiyFKH4UAATR6eolKHGRqk66L3nbRlHvZbODqUcyOeUEXKp7
-ntnM2l6VIxMDHCxbZ9/cu4o/KjW2iT3802D4EWxPT3eksdZERgSVPTJrKskMzey+
-5rqLXTu2NU+V7E+UjQ6hlavc2139CQb3y4smmdpzQTnmUfg281kb9Be0KIDfcOdR
-VwIDAQAB
------END PUBLIC KEY-----
-EOF
-	echo "https://cdn.layeh.com/alpine/3.10/" >> /etc/apk/repositories
+	echo "https://mirrors.sustech.edu.cn/alpine/v3.10/" >> /etc/apk/repositories
 
 	if ! apk add --no-cache alpine-base linux-virt syslinux grub grub-bios e2fsprogs eudev openssh rng-tools rng-tools-openrc digitalocean-alpine >>"$logfile" 2>>"$logfile"; then
 		echo
