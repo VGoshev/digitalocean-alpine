@@ -10,14 +10,15 @@ if [ "$1" = "--step-chroot" ]; then
 
 	printf "  Installing packages..." >&2
 
-	echo "https://mirrors.sustech.edu.cn/alpine/v3.10/" >> /etc/apk/repositories
-
-	if ! apk add --no-cache alpine-base linux-virt syslinux grub grub-bios e2fsprogs eudev openssh rng-tools rng-tools-openrc digitalocean-alpine >>"$logfile" 2>>"$logfile"; then
-		echo
+	if ! apk add --no-cache alpine-base linux-virt syslinux grub grub-bios e2fsprogs eudev openssh rng-tools rng-tools-openrc jq >>"$logfile" 2>>"$logfile"; then
+		echo " Fail" >&2
 		exit 1
 	fi
 
 	echo " Done" >&2
+
+    wget "https://raw.githubusercontent.com/VGoshev/digitalocean-alpine/master/apk/src/digitalocean" -O /etc/init.d/digitalocean
+    chmod -v +x /etc/init.d/digitalocean
 
 	printf "  Configuring services..." >&2
 
@@ -83,15 +84,15 @@ if [ ! -x "$SCRIPTPATH" ]; then
 	exit 1
 fi
 
-printf "Downloading Alpine 3.10.2..." >&2
-if ! wget -q -O /tmp/rootfs.tar.gz http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-minirootfs-3.10.2-x86_64.tar.gz; then
+printf "Downloading Alpine 3.15.0..." >&2
+if ! wget -q -O /tmp/rootfs.tar.gz https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.0-x86_64.tar.gz; then
 	echo " Failed!" >&2
 	exit 1
 fi
 echo " Done" >&2
 
 printf "Verifying SHA256 checksum..." >&2
-if ! echo "869b1f491d04b712892a4232b2afc24998f05eae4fb114fc6e44f4b1ab67f80c  /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
+if ! echo "ec7ec80a96500f13c189a6125f2dbe8600ef593b87fc4670fe959dc02db727a2  /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
 	echo " Failed!" >&2
 	exit 1
 fi
