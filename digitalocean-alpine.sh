@@ -4,6 +4,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 logfile="/tmp/digitalocean-alpine.log"
+ALPINE_VERSION="3.18.3"
+ALPINE_VERSION_MAJOR="3.18"
+SHA256=""
 
 if [ "$1" = "--step-chroot" ]; then
 	printf "" > "$logfile"
@@ -84,16 +87,16 @@ if [ ! -x "$SCRIPTPATH" ]; then
 	exit 1
 fi
 
-printf "Downloading Alpine 3.15.0..." >&2
+printf "Downloading Alpine ${ALPINE_VERSION}..." >&2
 # https://alpinelinux.org/downloads/
-if ! wget -q -O /tmp/rootfs.tar.gz https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/alpine-minirootfs-3.18.3-x86_64.tar.gz; then
+if ! wget -q -O /tmp/rootfs.tar.gz https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION_MAJOR}/releases/x86_64/alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz; then
 	echo " Failed!" >&2
 	exit 1
 fi
 echo " Done" >&2
 
 printf "Verifying SHA256 checksum..." >&2
-if ! echo "fc577324b7e9439863118c7e5209d25d7eddea6ba62b58badbc33c96861b9c4e /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
+if ! echo "${SHA256} /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
 	echo " Failed!" >&2
 	exit 1
 fi
