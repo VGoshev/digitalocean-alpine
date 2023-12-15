@@ -4,9 +4,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 logfile="/tmp/digitalocean-alpine.log"
-ALPINE_VERSION="3.18.4"
-ALPINE_VERSION_MAJOR="3.18"
-SHA256="c59d5203bc6b8b6ef81f3f6b63e32c28d6e47be806ba8528f8766a4ca506c7ba"
+# Latest version can be found here (use minirootfs x86_64):
+# https://alpinelinux.org/downloads/
+ALPINE_VERSION="3.19.0"
+ALPINE_VERSION_MAJOR="3.19"
+SHA256="f2b6248c9cbcb0993744d86ca9f67a058706f4ef5bf8c3c47d1cca8acf2013e0"
 
 if [ "$1" = "--step-chroot" ]; then
 	printf "" > "$logfile"
